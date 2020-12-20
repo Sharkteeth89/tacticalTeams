@@ -7,6 +7,9 @@ use App\Models\Mission;
 
 class MissionController extends Controller
 {
+	/**
+	 * Crea misiones
+	 */
     public function createMission(Request $request){
 
         $data = $request->getContent();
@@ -37,7 +40,10 @@ class MissionController extends Controller
     	print_r($response);
     	die;
 	}
-	
+
+	/**
+	 * Actualiza los datos intoducidos por la request
+	 */
     public function updateMission(Request $request, $id){
 
         $mission = Mission::find($id);
@@ -73,6 +79,9 @@ class MissionController extends Controller
     	die;
 	}	
 
+	/**
+	 * Da una lista de todas misiones
+	 */
 	public function missionList(){
 
         $response = "";
@@ -97,6 +106,9 @@ class MissionController extends Controller
         return response()->json($response);
     }
 
+	/**
+	 * Da la información de una mision
+	 */
 	public function missionInfo($id){
 		
 		$mission = Mission::find($id);

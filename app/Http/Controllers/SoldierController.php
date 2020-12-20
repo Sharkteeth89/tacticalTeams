@@ -9,6 +9,9 @@ use App\Models\Team;
 
 class SoldierController extends Controller
 {
+	/**
+	 * Crea un soldado
+	 */
     public function createSoldier(Request $request){
 
         $data = $request->getContent();
@@ -40,6 +43,9 @@ class SoldierController extends Controller
     	die;
     }
 
+	/**
+	 * Actualiza los datos del soldado introducidos por request
+	 */
     public function updateSoldier(Request $request, $id){
 
         $soldier = Soldier::find($id);
@@ -77,11 +83,13 @@ class SoldierController extends Controller
     	die;
 	}
 
+	/**
+	 * Actualiza el estado del soldado
+	 */
 	public function stateSoldier(Request $request, $id){
 
 		$soldier = Soldier::find($id);
-		$response="";
-		
+		$response="";		
 		
 		if($soldier){
 
@@ -110,6 +118,9 @@ class SoldierController extends Controller
     	die;		
 	}
 
+	/**
+	 * Da la una lista de soldados.
+	 */
 	public function soldiersList(){
 
 		$response = "";
@@ -139,6 +150,9 @@ class SoldierController extends Controller
 		return response()->json($response);
 	}
 
+	/**
+	 * Da la información de un soldado.
+	 */
 	public function infoSoldier($id){
 
 		$response;
@@ -178,6 +192,9 @@ class SoldierController extends Controller
 		return response()->json($response);
 	}
 
+	/**
+	 * Da el historial de misiones de un soldado
+	 */
 	public function soldierHistorial($id){
 		$response=[];
 		$soldier = Soldier::find($id);

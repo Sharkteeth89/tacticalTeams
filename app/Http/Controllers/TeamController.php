@@ -10,6 +10,9 @@ use App\Models\SoldierMission;
 
 class TeamController extends Controller
 {
+    /**
+     * Crea el equipo, asignando su nombre
+     */
     public function createTeam(Request $request){
 
         $data = $request->getContent();
@@ -34,6 +37,9 @@ class TeamController extends Controller
     	print_r($response);
     	die;
     }
+    /**
+     * Busca un equipo y si lo encuentra actualiza los datos introducidos en la request
+     */
     public function updateTeam(Request $request, $id){
 
         $team = Team::find($id);
@@ -63,7 +69,10 @@ class TeamController extends Controller
     	}    	
     	print_r($response);
     	die;
-    }    
+    }  
+    /** 
+     * Busca un equipo y si lo encuentra lo elimina
+     */  
     public function deleteTeam($id){
 
         $team = Team::find($id);
@@ -82,6 +91,10 @@ class TeamController extends Controller
         print_r($response);
     	die;
     }
+
+    /**
+     * Busca un soldado y lo añade al equipo señalado en la request
+     */
 	public function addSoldier(Request $request){
 
         $response = "";
@@ -98,15 +111,20 @@ class TeamController extends Controller
 
             try{
                 $soldier->save();
-                $response = "OK";
+                $response = "Soldier Added";
             }catch(\Exception $e){
                 $response = $e->getMessage();
             }
 
+        }else{
+            $response = "Soldier or team not found";
         }
         return response($response);
 
     }	
+    /**
+     * Busca un soldado y lo añade al equipo, como lider, señalado en la request
+     */
 	public function addLeader(Request $request){
 
         $response = "";
@@ -138,6 +156,9 @@ class TeamController extends Controller
         return response($response);
 
     }
+    /**
+     * Asigna una missión al equipo seleccionado
+     */
     public function assingMission(Request $request){
         $response = "";
         
@@ -181,6 +202,10 @@ class TeamController extends Controller
 
         return response($response);
     }
+
+    /**
+     * Da los id de los soldados del equipo
+     */
     public function getTeamMembers($id){
 
         $soldiers = Soldier::all();
@@ -199,6 +224,9 @@ class TeamController extends Controller
         }
         return $response;
     }
+    /**
+     * Da la información de un equipo
+     */
     public function teamInfo($id){
         $team = Team::find($id);
         $response=[];
@@ -226,6 +254,10 @@ class TeamController extends Controller
 
         return $response;
     }
+
+    /**
+     * Actualiza el líder del equipo
+     */
     public function updateLeader(Request $request){
         $response = "";
         
@@ -249,6 +281,9 @@ class TeamController extends Controller
         }        
         return $response;
     }
+    /**
+     * Elimina un soldado del equipo
+     */
     public function removeTeamMember($id){
 
         $response;
@@ -257,7 +292,7 @@ class TeamController extends Controller
         $team = Team::find($soldier->team_id);
 
         if ($soldier) {
-
+            //Comprueba si es líder del equipo para además eliminar su id como líder del grupo
             if($team->leader_id === $soldier->id){
                 $team->leader_id = null;
                 try{
